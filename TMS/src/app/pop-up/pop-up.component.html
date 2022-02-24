@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>New task</h2>
+
+
+
+    <mat-form-field class="task">
+        <mat-label>Task</mat-label>
+        <input matInput #task>
+
+    </mat-form-field>
+<br>
+    <mat-form-field class="text">
+        <mat-label>Description</mat-label>
+        <textarea matInput #description ></textarea>
+    </mat-form-field>
+    <br>
+
+    <mat-form-field>
+        <mat-label>Color</mat-label>
+        <mat-select #select>
+            <mat-option value="#6499e3">Blue</mat-option>
+            <mat-option value="#ed5151">Red</mat-option>
+            <mat-option value="#f5ae71">Orange</mat-option>
+            <mat-option value="#50c76f">Green</mat-option>
+            <mat-option value="#de9ae6">Pink</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+
+
+<mat-dialog-actions>
+
+    <button mat-raised-button mat-dialog-close cdkFocusInitial>Close</button>
+
+    <button  mat-raised-button (click)="getTask(task.value, description.value, select.value)" mat-dialog-close>Create task</button>
+
+   
+    
+</mat-dialog-actions>
+

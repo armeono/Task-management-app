@@ -1,0 +1,76 @@
+<div class="app">
+
+    <button mat-raised-button class="taskButton" (click)="openPopUp()">New task</button>
+    <div class="main">
+
+        <div class="toDoContainer">
+
+            <div class="biggerContainer">
+
+                <h3 class="heading">To do</h3>
+
+                <div cdkDropList [cdkDropListData]="tasks" [cdkDropListConnectedTo]="[activeList, doneList]"
+                    #firstList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
+
+                    <div cdkDrag *ngFor="let task of tasks" class="item">
+
+                        <div class="color" [style.background]="task.color"></div>
+
+
+                        <h2 class="taskHeading">{{task.task}}</h2>
+                
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="activeContainer">
+
+            <div class="biggerContainer">
+
+                <h3 class="heading">Doing</h3>
+
+                <div cdkDropList [cdkDropListData]="tasksActive" [cdkDropListConnectedTo]="[firstList, doneList]"
+                    #activeList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
+                    <div cdkDrag *ngFor="let task of tasksActive" class="item">
+                        <div class="color" [style.background]="task.color"></div>
+
+
+                        <h2 class="taskHeading">{{task.task}}</h2>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="doneContainer">
+            <div class="biggerContainer">
+
+                <h3 class="heading">Done</h3>
+                <div cdkDropList [cdkDropListData]="tasksDone" [cdkDropListConnectedTo]="[firstList, activeList]"
+                    #doneList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
+                    <div cdkDrag *ngFor="let task of tasksDone" class="item">
+                        <div class="color" [style.background]="task.color"></div>
+
+
+                        <h2 class="taskHeading">{{task.task}}</h2>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
