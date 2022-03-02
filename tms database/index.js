@@ -1,21 +1,26 @@
 const express = require('express');
 const { append } = require('express/lib/response');
 const {MongoClient} = require('mongodb')
+const cors = require("cors")
+let bodyParser = require('body-parser');
 
 
 const PORT = process.env.PORT || 8080; 
 
 const app = express()
 
-const uri = "mongodb+srv://armeono:rCrcvpi6Gn3rPwjm@cluster0.ubeit.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+const uri = "mongodb+srv://armeono:rCrcvpi6Gn3rPwjm@cluster0.ubeit.mongodb.net/TMS?retryWrites=true&w=majority"
 const client = new MongoClient(uri)
 
-let sampleTask = {
-    task: "Go get groceries + salad",
-    date: new Date()
-}
+const connection = client.db('TMS')
 
-const connection = client.db('tm_system').collection('Tasks')
+app.use(
+    cors({
+        origin: "http://localhost:4200"
+    })
+)
+
+app.use(bodyParser.json())
 
 app.listen(PORT, async (err) => { 
 
@@ -38,18 +43,26 @@ app.listen(PORT, async (err) => {
 
 } )
 
-app.post('/post', async (req, res) => { 
+app.post('/postdata/:collectionName', async (req, res) => { 
+
+    const collectionName = req.params.collectionName
+
+    const task = req.body
+
+    console.log(task)
    
-    const result = await connection.insertOne(sampleTask)
+    const result = await connection.collection(collectionName).insertOne(task)
 
     console.log(`New task created with id: ${result.insertedId}`)
 
 })
 
 
-app.get('/get', async (req, res) => { 
+app.get('/getdata/:collectionName', async (req, res) => { 
 
-    const cursor = await connection.find()
+    const collectionName = req.params.collectionName
+
+    const cursor = await connection.collection(collectionName).find()
 
     const result = await cursor.toArray()
 
@@ -63,14 +76,31 @@ app.get('/get', async (req, res) => {
 
 })
 
-app.delete('/delete/:taskName', async (req, res) => {
+app.delete('/delete/:collectionName/:taskName', async (req, res) => {
+
+    
+
+    const collectionName = req.params.collectionName
 
     const taskName = req.params.taskName
 
+    console.log(collectionName)
 
-    const result = await connection.deleteOne({task: taskName})
+    const result = await connection.collection(collectionName).deleteOne({task: taskName})
 
     console.log(`${result.deletedCount} deleted`)
 
+
+})
+
+app.post('/transferdata/:collectionName', async (req, res) => {
+
+    const collectionName = req.params.collectionName
+
+    const task = req.body
+
+    const result = await connection.collection(collectionName).insertOne(task)
+
+    
 
 })

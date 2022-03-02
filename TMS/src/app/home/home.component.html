@@ -1,6 +1,21 @@
 <div class="app">
 
     <button mat-raised-button class="taskButton" (click)="openPopUp()">New task</button>
+
+
+
+    <div class="deleteElement" cdkDropList [cdkDropListData]="deleteTasks"
+        [cdkDropListConnectedTo]="[firstList, activeList, doneList]" #deleteList="cdkDropList"
+        (cdkDropListDropped)="delete($event)">
+
+        <img class="trashImage" src="./assets/images/trash.png" alt="trash">
+
+
+
+    </div>
+
+
+
     <div class="main">
 
         <div class="toDoContainer">
@@ -9,16 +24,28 @@
 
                 <h3 class="heading">To do</h3>
 
-                <div cdkDropList [cdkDropListData]="tasks" [cdkDropListConnectedTo]="[activeList, doneList]"
+                <div cdkDropList [cdkDropListData]="tasks" [cdkDropListConnectedTo]="[activeList, doneList, deleteList]"
                     #firstList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
 
                     <div cdkDrag *ngFor="let task of tasks" class="item">
 
                         <div class="color" [style.background]="task.color"></div>
 
+                        <mat-expansion-panel hideToggle>
 
-                        <h2 class="taskHeading">{{task.task}}</h2>
-                
+                            <mat-expansion-panel-header>
+
+                                <mat-panel-title>{{task.task}}</mat-panel-title>
+
+                            </mat-expansion-panel-header>
+                            <mat-panel-description>
+
+                                {{task.description}}
+
+                            </mat-panel-description>
+
+                        </mat-expansion-panel>
+
                     </div>
                 </div>
 
@@ -33,13 +60,27 @@
 
                 <h3 class="heading">Doing</h3>
 
-                <div cdkDropList [cdkDropListData]="tasksActive" [cdkDropListConnectedTo]="[firstList, doneList]"
-                    #activeList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
+                <div cdkDropList [cdkDropListData]="tasksActive"
+                    [cdkDropListConnectedTo]="[firstList, doneList, deleteList]" #activeList="cdkDropList"
+                    (cdkDropListDropped)="drop($event)" class="container">
                     <div cdkDrag *ngFor="let task of tasksActive" class="item">
                         <div class="color" [style.background]="task.color"></div>
 
 
-                        <h2 class="taskHeading">{{task.task}}</h2>
+                        <mat-expansion-panel hideToggle>
+
+                            <mat-expansion-panel-header>
+
+                                <mat-panel-title>{{task.task}}</mat-panel-title>
+
+                            </mat-expansion-panel-header>
+                            <mat-panel-description>
+
+                                {{task.description}}
+
+                            </mat-panel-description>
+
+                        </mat-expansion-panel>
                     </div>
 
                 </div>
@@ -53,13 +94,27 @@
             <div class="biggerContainer">
 
                 <h3 class="heading">Done</h3>
-                <div cdkDropList [cdkDropListData]="tasksDone" [cdkDropListConnectedTo]="[firstList, activeList]"
-                    #doneList="cdkDropList" (cdkDropListDropped)="drop($event)" class="container">
+                <div cdkDropList [cdkDropListData]="tasksDone"
+                    [cdkDropListConnectedTo]="[firstList, activeList, deleteList]" #doneList="cdkDropList"
+                    (cdkDropListDropped)="drop($event)" class="container">
                     <div cdkDrag *ngFor="let task of tasksDone" class="item">
                         <div class="color" [style.background]="task.color"></div>
 
 
-                        <h2 class="taskHeading">{{task.task}}</h2>
+                        <mat-expansion-panel hideToggle>
+
+                            <mat-expansion-panel-header>
+
+                                <mat-panel-title>{{task.task}}</mat-panel-title>
+
+                            </mat-expansion-panel-header>
+                            <mat-panel-description>
+
+                                {{task.description}}
+
+                            </mat-panel-description>
+
+                        </mat-expansion-panel>
                     </div>
 
 

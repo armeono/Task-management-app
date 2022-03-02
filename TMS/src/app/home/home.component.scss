@@ -14,6 +14,32 @@
     
 }
 
+.deleteElement{
+
+    float: right;
+   
+   
+ 
+}
+
+.deleteElement .cdk-drag-placeholder { 
+    width: 0px;
+    height: 0px;
+}
+
+.trashImage {
+    width: 40px;
+    height: 40px;
+
+    &:hover { 
+
+        width: 45px;
+        height: 45px;
+
+    }
+}
+
+
 .color{ 
 
     height: 10px;
@@ -44,7 +70,7 @@
 
 .item {
 
-    height: 100px;
+  
     background-color: white;
 
       
@@ -58,9 +84,31 @@
     border-radius: 2px;
     box-shadow: 1px 1px 5px #ccc;
 
+    &:hover{
+        transform: translateY(-2px);
+
+        box-shadow: 1px 1px 5px rgb(131, 131, 131);
+    }
+
 
     
 }
+
+.cdk-drop-list-dragging .cdk-drag {
+
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+    
+}
+
+.cdk-drag-animating {
+    transition: transform 300ms cubic-bezier(0, 0, 0.2, 1);
+} 
+
+.cdk-drag-preview {
+    text-align: center;
+}
+
+  
 
 .container {
 

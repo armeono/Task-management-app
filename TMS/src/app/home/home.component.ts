@@ -15,36 +15,45 @@ export class HomeComponent implements OnInit {
   tasksActive: any[] = [];
   tasksDone: any[] = [];
 
+  deleteTasks: any[] = [];
 
-  constructor(private dialogRef: MatDialog, private taskService: TaskService) { 
 
-    
-    
+  constructor(private dialogRef: MatDialog, private taskService: TaskService) {
+
+
+
   }
 
   ngOnInit(): void {
 
     this.taskService.currentList.subscribe(list => {
-      
-     
+
       this.tasks = list;
 
-      this.tasks.forEach(task => { 
-        console.log(task.task)
-      })
     })
 
+    this.taskService.getTasks().subscribe(data => {
+      this.tasks = data
+    });
 
- 
+    this.taskService.getActiveTasks().subscribe(data => {
+      this.tasksActive = data
+    });
+
+    this.taskService.getDoneTasks().subscribe(data => {
+      this.tasksDone = data
+    });
+
+
 
 
   }
 
 
 
-  openPopUp(){
+  openPopUp() {
 
-    this.dialogRef.open(PopUpComponent, { 
+    this.dialogRef.open(PopUpComponent, {
       height: '400px',
       width: '600px'
 
@@ -52,30 +61,140 @@ export class HomeComponent implements OnInit {
 
   }
 
-  drop(event: CdkDragDrop<string[]>){
+  drop(event: CdkDragDrop<string[]>) {
 
-    if(event.previousContainer === event.container){
+
+
+    if (event.previousContainer === event.container) {
+
+
 
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex)
 
 
 
-    }else {
+    } else {
 
       transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex)
 
+
+      let text = event.item.element.nativeElement.innerText
+
+      if (event.container.id === 'cdk-drop-list-2') {
+
+        let switchTask: any[] = []
+
+       
+
+        this.tasksActive.forEach(data => {
+
+          if(data.task == text){
+
+            switchTask.push(data)
+
+          }
+        })
+
+
+
+        this.taskService.transferToActive(switchTask);
+
+        this.taskService.deleteTask('tasks', switchTask)
+
+        this.taskService.deleteTask('doneTasks', switchTask)
+
+        
+      }
+
+      if (event.container.id === 'cdk-drop-list-3') {
+
+        let switchTask: any[] = []
+
+       
+
+        this.tasksDone.forEach(data => {
+
+          if(data.task == text){
+
+            switchTask.push(data)
+
+          }
+        })
+
+
+
+        this.taskService.transferToDone(switchTask);
+
+        this.taskService.deleteTask('tasks', switchTask)
+
+        this.taskService.deleteTask('activeTasks', switchTask)
+
+        
+      }
+
+      if (event.container.id === 'cdk-drop-list-1') {
+
+        let switchTask: any[] = []
+
+       
+
+        this.tasks.forEach(data => {
+
+          if(data.task == text){
+
+            switchTask.push(data)
+
+          }
+        })
+
+
+
+        this.taskService.transferToTodo(switchTask);
+
+        this.taskService.deleteTask('doneTasks', switchTask)
+
+        this.taskService.deleteTask('activeTasks', switchTask)
+
+        
+      }
+
+
     }
 
-  
-   
+
+
   }
 
+  delete(event: CdkDragDrop<string[]>) {
+
+    transferArrayItem(event.previousContainer.data, event.container.data, event.previousIndex, event.currentIndex)
+
+    let element = event.item.element.nativeElement.innerText
+
+    console.log(this.deleteTasks)
+
+    this.taskService.deleteTask('doneTasks', this.deleteTasks)
+
+    this.taskService.deleteTask('activeTasks', this.deleteTasks)
+
+    this.taskService.deleteTask('tasks', this.deleteTasks)
+
+    this.deleteTasks.pop()
+
   
 
 
+   
 
 
 
-  
+  }
+
+
+
+
+
+
+
 
 }

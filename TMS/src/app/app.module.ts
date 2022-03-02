@@ -13,6 +13,10 @@ import {MatButtonModule} from '@angular/material/button'
 import {MatFormFieldModule} from '@angular/material/form-field'
 import {MatInputModule} from '@angular/material/input'
 import {MatSelectModule} from '@angular/material/select'
+import {HttpClientModule} from '@angular/common/http'
+import {MatExpansionModule} from '@angular/material/expansion';
+
+
 
 @NgModule({
   declarations: [
@@ -30,7 +34,9 @@ import {MatSelectModule} from '@angular/material/select'
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    HttpClientModule,
+    MatExpansionModule
     
   ],
   providers: [],
